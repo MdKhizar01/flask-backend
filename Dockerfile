@@ -4,10 +4,19 @@ FROM python:3.11-slim
 # Set the working directory inside the container
 WORKDIR /app
 
+# Install Tesseract and dependencies
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    libjpeg-dev \
+    libpng-dev \
+    libtiff-dev \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy the requirements file to the container
 COPY requirements.txt /app/
 
-# Install dependencies
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the entire app directory into the container
